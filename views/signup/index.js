@@ -8,7 +8,6 @@ exports.init = function(req, res){
     res.render('signup/index', {
       oauthMessage: '',
       oauthTwitter: !!req.app.get('twitter-oauth-key'),
-      oauthGitHub: !!req.app.get('github-oauth-key'),
       oauthFacebook: !!req.app.get('facebook-oauth-key')
     });
   }
@@ -198,34 +197,6 @@ exports.signupTwitter = function(req, res, next) {
         res.render('signup/index', {
           oauthMessage: 'We found a user linked to your Twitter account.',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
-          oauthGitHub: !!req.app.get('github-oauth-key'),
-          oauthFacebook: !!req.app.get('facebook-oauth-key')
-        });
-      }
-    });
-  })(req, res, next);
-};
-
-exports.signupGitHub = function(req, res, next) {
-  req._passport.instance.authenticate('github', function(err, user, info) {
-    if (!info || !info.profile) {
-      return res.redirect('/signup/');
-    }
-
-    req.app.db.models.User.findOne({ 'github.id': info.profile._json.id }, function(err, user) {
-      if (err) {
-        return next(err);
-      }
-
-      if (!user) {
-        req.session.socialProfile = info.profile;
-        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' });
-      }
-      else {
-        res.render('signup/index', {
-          oauthMessage: 'We found a user linked to your GitHub account.',
-          oauthTwitter: !!req.app.get('twitter-oauth-key'),
-          oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key')
         });
       }
@@ -251,7 +222,6 @@ exports.signupFacebook = function(req, res, next) {
         res.render('signup/index', {
           oauthMessage: 'We found a user linked to your Facebook account.',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
-          oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key')
         });
       }

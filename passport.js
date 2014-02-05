@@ -3,7 +3,6 @@
 exports = module.exports = function(app, passport) {
   var LocalStrategy = require('passport-local').Strategy,
       TwitterStrategy = require('passport-twitter').Strategy,
-      GitHubStrategy = require('passport-github').Strategy,
       FacebookStrategy = require('passport-facebook').Strategy;
 
   passport.use(new LocalStrategy(
@@ -49,22 +48,6 @@ exports = module.exports = function(app, passport) {
         done(null, false, {
           token: token,
           tokenSecret: tokenSecret,
-          profile: profile
-        });
-      }
-    ));
-  }
-
-  if (app.get('github-oauth-key')) {
-    passport.use(new GitHubStrategy({
-        clientID: app.get('github-oauth-key'),
-        clientSecret: app.get('github-oauth-secret'),
-        customHeaders: { "User-Agent": app.get('project-name') }
-      },
-      function(accessToken, refreshToken, profile, done) {
-        done(null, false, {
-          accessToken: accessToken,
-          refreshToken: refreshToken,
           profile: profile
         });
       }

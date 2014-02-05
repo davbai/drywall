@@ -55,10 +55,6 @@ app.configure(function(){
   app.set('twitter-oauth-key', config.oauth.twitter.key);
   app.set('twitter-oauth-secret', config.oauth.twitter.secret);
 
-  //github settings
-  app.set('github-oauth-key', config.oauth.github.key);
-  app.set('github-oauth-secret', config.oauth.github.secret);
-
   //facebook settings
   app.set('facebook-oauth-key', config.oauth.facebook.key);
   app.set('facebook-oauth-secret', config.oauth.facebook.secret);
